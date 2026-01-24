@@ -1,0 +1,30 @@
+[General]
+# Cấu hình chung
+dns-server = 8.8.8.8, 1.1.1.1
+skip-proxy = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12
+ipv6 = false
+
+[Rule]
+# Rule cho CapCut
+DOMAIN-SUFFIX,capcut.com,PROXY
+DOMAIN-SUFFIX,bytedance.com,PROXY
+DOMAIN-SUFFIX,effect.capcut.com,PROXY
+FINAL,DIRECT
+
+[Script]
+# Script nâng cấp CapCut Standard → Premium với Share PC
+#hostname = *.capcut.com, *.bytedance.com
+CapCut-Standard-To-Premium = type=http-response,pattern=^https?:\/\/(api|effect|www)\.(capcut|bytedance)\.com\/.*\/(user|profile|account|vip|premium|share|device|template|effect|verify|export)/,requires-body=true,script-path=https://raw.githubusercontent.com/ttareal207/Module_IOS/refs/heads/main/js/capcutstandbyta.js ,timeout=60,max-size=1048576
+
+CapCut-Request-Headers = type=http-request,pattern=^https?:\/\/(api|effect|www)\.(capcut|bytedance)\.com,script-path=https://raw.githubusercontent.com/ttareal207/Module_IOS/refs/heads/main/js/capcutstandbyta.js ,timeout=30
+
+[URL Rewrite]
+# Rewrite cho CapCut
+^https?:\/\/api\.capcut\.com\/v1\/user\/standard\/upgrade 302 https://api.capcut.com/v1/user/premium/active
+^https?:\/\/effect\.capcut\.com\/api\/v1\/user\/tier 302 https://effect.capcut.com/api/v1/user/tier?tier=premium
+
+[MITM]
+enable = true
+hostname = %APPEND%, *.capcut.com, *.bytedance.com, api.capcut.com, effect.capcut.com, www.capcut.com
+skip-server-cert-verify = true
+tcp-connection = true
