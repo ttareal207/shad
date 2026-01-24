@@ -194,8 +194,8 @@ RevenueCatDeleteHeader = type=http-request, pattern=^https:\/\/api\.(revenuecat|
 #Duolingo
 
 [Script]
-Duolingo Max = type=http-response,pattern=^https?:\/\/(api\.revenuecat\.com|purchase\.duolingo\.com)\/.+\/(receipts|subscribers|verify),requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/ttareal207/Module_IOS/refs/heads/main/js/fakemuaduolingo.js,timeout=60
-Duolingo Delete Headers = type=http-request,pattern=^https?:\/\/(api\.revenuecat\.com|purchase\.duolingo\.com|.*\.duolingo\.com)\/.+,script-path=https://raw.githubusercontent.com/ttareal207/shad/refs/heads/main/js/deleteheaderduolingo.js,timeout=30
+Duolingo Max = type=http-response,pattern=^https?:\/\/(api\.revenuecat\.com|purchase\.duolingo\.com)\/.+\/(receipts|subscribers|verify),requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/ttareal207/Module_IOS/refs/heads/main/js/fakemuaduolingo.js, requires-body=true, max-size=-1, timeout=60
+Duolingo Delete Headers = type=http-request,pattern=^https?:\/\/(api\.revenuecat\.com|purchase\.duolingo\.com|.*\.duolingo\.com)\/.+,script-path=https://raw.githubusercontent.com/ttareal207/shad/refs/heads/main/js/deleteheaderduolingo.js,timeout=60
 
 [URL Rewrite]
 # Duolingo API endpoints
