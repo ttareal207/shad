@@ -1,0 +1,208 @@
+#!name= ttareal07
+#!desc=Được tổng hợp bởi Trần Tuấn Anh 
+#!author=ttareal07
+#Shadowrocket Configuration - TTAREAL07
+#!url=https://raw.githubusercontent.com/ttareal207/shad/refs/heads/main/js/modules/ttareal07vip.sgmodule
+# ~ By ttareal07
+
+#Shadowrocket Unlock nhiều app vip
+
+[General]
+password = ttarealquadeptrai
+update-url = https://raw.githubusercontent.com/ttareal207/shad/refs/heads/main/js/modules/ig_ttareal.07.sgmodule
+
+[Rule]
+skip-proxy = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, e.crashlytics.com
+bypass-tun = 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, 172.16.0.0/12, 192.0.0.0/24, 192.0.2.0/24, 192.88.99.0/24, 192.168.0.0/16, 198.18.0.0/15, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/4, 255.255.255.255/32
+dns-server = system, 8.8.8.8, 114.114.114.114
+ipv6 = false
+AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP)),REJECT
+AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP)),REJECT
+
+# Chặn quảng cáo
+DOMAIN-SUFFIX,doubleclick.net,REJECT
+DOMAIN-SUFFIX,googleadservices.com,REJECT
+DOMAIN-SUFFIX,googlesyndication.com,REJECT
+
+[Header Rewrite]
+^https?://api.revenuecat.com/.+/(receipts$|subscribers/?(.*?)*$) header-del x-revenuecat-etag
+^https?://api.revenuecat.com/.+/(receipts$|subscribers/?(.*?)*$) header-del X-RevenueCat-ETag
+
+# ===== Spotify iOS15 Header Rewrite =====
+http-request ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize$ header-del if-none-match
+
+[Url Rewrite]
+^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad _ reject-200
+^https?:\/\/(www|s)\.youtube\.com\/api\/stats\/ads _ reject-200
+^https?:\/\/(www|s)\.youtube\.com\/(pagead|ptracking) _ reject-200
+^https?:\/\/s\.youtube\.com\/api\/stats\/qoe\?adcontext _ reject-200
+(^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
+
+[Script]
+
+#Sub-Store
+Sub-Store Core=type=http-request,pattern=^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))),script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/sub-store-1.min.js,requires-body=true,timeout=120
+Sub-Store Simple=type=http-request,pattern=^https?:\/\/sub\.store,script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/sub-store-0.min.js,requires-body=true
+Sub-Store Sync=type=cron,cronexp=0 0 * * *,wake-system=1,timeout=120,script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/cron-sync-artifacts.min.js
+
+[Url Rewrite]
+# Chặn quảng cáo Google Video
+^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad _ reject-200
+
+# YouTube Ads
+^https?:\/\/(www|s)\.youtube\.com\/api\/stats\/ads _ reject-200
+^https?:\/\/(www|s)\.youtube\.com\/(pagead|ptracking) _ reject-200
+^https?:\/\/s\.youtube\.com\/api\/stats\/qoe\?adcontext _ reject-200
+
+# General Video Ad request
+(^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
+
+[Script]
+
+#Sub-Store
+#hostname = sub.store
+Sub-Store Core=type=http-request,pattern=^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))),script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/sub-store-1.min.js,requires-body=true,timeout=120
+Sub-Store Simple=type=http-request,pattern=^https?:\/\/sub\.store,script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/sub-store-0.min.js,requires-body=true
+Sub-Store Sync=type=cron,cronexp=0 0 * * *,wake-system=1,timeout=120,script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/cron-sync-artifacts.min.js
+
+#Youtube Premium (Search|Play Page|Short Video ||| PiP|Background Play)
+#hostname = *.googlevideo.com, youtubei.googleapis.com
+youtube.request = type=http-request,pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|reel\/reel_watch_sequence|get_watch),requires-body=1,max-size=-1,binary-body-mode=1,engine=jsc,script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/youtube.response.js
+youtube.response = type=http-response,pattern=^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$,requires-body=1,max-size=-1,binary-body-mode=1,engine={{{script}}},script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/youtube.response.js,argument="{"lyricLang":"vi","captionLang":"vi","blockUpload":true,"blockImmersive":true,"debug":false}"
+
+# ===== Spotify iOS15 (app2smile) =====
+#!name=Spotify(iOS15)
+
+spotify-json = type=http-request,pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(artistview\/v1\/artist|album-entity-view\/v2\/album)\/,requires-body=0,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/spotify-json.js
+
+spotify-proto = type=http-response,pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)$,requires-body=1,binary-body-mode=1,max-size=0,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/spotify-proto.js,script-update-interval=0
+
+#SoundCloud
+SoundCloudGo+=type=http-response,pattern=https://api-mobile.soundcloud.com/configuration/ios,requires-body=1,script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/SoundCloudGoPlus.js
+
+#AlightMotion
+AlightMotion = type=http-response,pattern=^https:\/\/us-central1-alight-creative\.cloudfunctions\.net\/getAccountStatusAndLicenses,requires-body=true,max-size=131072,timeout=10,script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/AlightMotion.js
+
+#PicsArt
+PicsArt = type=http-request,pattern=^https:\/\/api\.picsart\.com\/gw-v2\/shop\/subscription\/apple\/purchases,script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/PicsArt.js,requires-body=true,timeout=60
+
+#Wink
+Wink =type=http-response,pattern=^https?:\/\/api-sub\.meitu\.com\/v2\/user\/vip_info_by_group\.json,requires-body=1,script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/WinkVipCrack.js
+
+#Truecaller
+Truecaller = type=http-response,pattern=^https://premium-(.+)\.truecaller\.com/v\d/(subscriptions|products\/apple),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/TrueCaller.js
+
+#Kinemaster
+Kinemaster = type=http-response,pattern=^https:\/\/api-account\.kinemasters\.com\/v\d\/user\/subscribe$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/Kinemaster.js
+
+#CamScanner
+Camscanner = type=http-response,pattern=https:\/\/(api|api-cs.*)\.intsig\.net\/purchase\/cs\/query_prop,requires-body=1,script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/camScanner.js
+
+#BeautyPlus
+BeautyPlus = type=http-response,pattern=https:\/\/(api\.mr\.pixocial\.com\/v1\/manual_unlock|newbeee-api\.beautyplus\.com\/api\/v1\/asset\/balance),requires-body=true,max-size=-1,timeout=60,script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/BeautyPlus.js
+
+#LocketGold
+revenuecat = type=http-response, pattern=^https:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/[^/]+$), script-path=https://raw.githubusercontent.com/ttareal207/Module_IOS/refs/heads/main/js/locketmy_ttareal07.js, requires-body=true, max-size=-1, timeout=60
+deleteHeader = type=http-request, pattern=^https:\/\/api\.revenuecat\.com\/.+\/(receipts|subscribers), script-path=https://raw.githubusercontent.com/ttareal207/shad/refs/heads/main/js/hustdeleteHeader.js, timeout=60
+
+# VSCO
+#hostname = api.revenuecat.com
+VSCO = type=http-request ^https://api.revenuecat.com/.+/(receipts$|subscribers/?(.*?)*$) script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/VSCO.js, requires-body=true, timeout=60
+
+# Lightroom
+#hostname = photos.adobe.io
+Lightroom = type=http-response,pattern=^https:\/\/photos\.adobe\.io\/v\d\/accounts,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/lightroom.js,script-update-interval=-1
+
+# Snow
+#hostname = user-snow-api.snow.me
+Snow = type=http-response, pattern=^https?:\/\/user-snow-api\.snow\.me\/v\d\/purchase\/subscription\/subscriber\/status, script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/Snow.js, requires-body=true, max-size=-1, timeout=60
+
+# Meitu XiuXiu
+#hostname = h5.xiuxiu.meitu.com, api.xiuxiu.meitu.com
+Meitu = type=http-response,pattern=^https?:\/\/(h5|api)\.xiuxiu\.meitu\.com\/v\d\/(h\d\/vip|vip|user)\/,requires-body=1,script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/MeiTuXiuXiu.js
+
+# iTunes receipt verify
+#hostname = buy.itunes.apple.com
+iTunes = type=http-response, pattern=^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$, script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/iTunes.js, requires-body=true, max-size=-1, timeout=60
+
+# RevenueCat Vip tổng quát
+#hostname = api.revenuecat.com, api.rc-backup.com
+RevenueCatVip = type=http-response, pattern=^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts$|subscribers\/[^/]+$), script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/revenuecat.js, requires-body=true, max-size=-1, timeout=60
+#RevenueCatDeleteHeader = type=http-request, pattern=^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts|subscribers), script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/deleteHeader.js, timeout=60
+
+# PicsArt storage unlock
+#hostname = api.picsart.com
+PicsArtStorages = type=http-response,pattern=^https:\/\/api\.picsart\.com\/gw-v2\/cloud-storage\/v1\/me\/storages,script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/PicsArtStorages.js,requires-body=1,max-size=0
+
+# Chặn quảng cáo Google Video
+^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad _ reject-200
+
+# YouTube Ads
+^https?:\/\/(www|s)\.youtube\.com\/api\/stats\/ads _ reject-200
+^https?:\/\/(www|s)\.youtube\.com\/(pagead|ptracking) _ reject-200
+^https?:\/\/s\.youtube\.com\/api\/stats\/qoe\?adcontext _ reject-200
+
+# General Video Ad request
+(^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
+
+# YouTube Ads
+^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad 302 https://rr2---sn-npoeenez.googlevideo.com/videoplayback?cause=adblock
+^https?:\/\/(www|s)\.youtube\.com\/api\/stats\/ads 403
+^https?:\/\/(www|s)\.youtube\.com\/(pagead|ptracking) 403
+^https?:\/\/s\.youtube\.com\/api\/stats\/qoe\?adcontext 403
+^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?&ctier=L(&.+?),ctier,(.+) $1$2$3 302
+
+# Ad services
+^https?:\/\/ads\.(.*) 403
+^https?:\/\/(.*)\.doubleclick\.net 403
+^https?:\/\/(.*)\.googleadservices\.com 403
+
+# Netflix
+^https?:\/\/ios\.prod\.ftl\.netflix\.com 302 https://ios.prod.ftl.netflix.com?skipAds=true
+^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad _ reject-200
+^https?:\/\/(www|s)\.youtube\.com\/api\/stats\/ads _ reject-200
+^https?:\/\/(www|s)\.youtube\.com\/(pagead|ptracking) _ reject-200
+^https?:\/\/s\.youtube\.com\/api\/stats\/qoe\?adcontext _ reject-200
+(^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
+
+[Header Rewrite]
+http-request ^https?://api.revenuecat.com/.+/(receipts$|subscribers/?(.*?)*$) header-del x-revenuecat-etag
+http-request ^https?://api.revenuecat.com/.+/(receipts$|subscribers/?(.*?)*$) header-del X-RevenueCat-ETag
+http-request ^https?://api\.revenuecat\.com/.+/(receipts$|subscribers/?(.*?)*$) header-del x-revenuecat-etag
+http-request ^https?://api\.revenuecat\.com/.+/(receipts$|subscribers/?(.*?)*$) header-del X-RevenueCat-ETag
+http-request ^https?://(www|s)\.youtube\.com/pagead/ header-del Referer
+http-request ^https?://(www|s)\.youtube\.com/ptracking header-del Referer
+http-request ^https?://api.revenuecat.com/.+/(receipts$|subscribers/?(.*?)*$) header-del x-revenuecat-etag
+http-request ^https?://api.revenuecat.com/.+/(receipts$|subscribers/?(.*?)*$) header-del X-RevenueCat-ETag
+
+# CapCut Premium
+CapCut-Premium = type=http-response,pattern=^https?:\/\/api(.*)\.capcut\.com\/v1\/(user|vip|premium),script-path=https://raw.githubusercontent.com/Semporia/Quantumult-X/master/Scripts/CapCut.js,requires-body=true,max-size=0
+CapCut-Unlock = type=http-response,pattern=^https?:\/\/(api|effect)\.(capcut|bytedance)\.com\/(api\/v1\/vip_info|effect\/api\/v1\/premium\/user_status)/,script-path=https://raw.githubusercontent.com/nameking77/Qx/main/script/capcut.js,requires-body=true
+
+# Netflix
+Netflix-AdSkip = type=http-response,pattern=^https?:\/\/(ios\.prod\.ftl|www)\.netflix\.com\/,script-path=https://raw.githubusercontent.com/deezertidal/QuantumultX-Rewrite/master/rewrite/netflix.conf,requires-body=true
+Netflix-4K = type=http-request,pattern=^https?:\/\/www\.netflix\.com\/nq\/mvilayer,script-path=https://raw.githubusercontent.com/deezertidal/QuantumultX-Rewrite/master/js/netflix_4k.js
+
+# Ad Skip Universal
+AdSkip-Universal = type=http-response,pattern=^https?:\/\/(.*)(ad|ads|adx|adv|doubleclick)\.(.*),script-path=https://raw.githubusercontent.com/deezertidal/QuantumultX-Rewrite/master/js/0s-ads.js,requires-body=true
+# THAY THẾ đoạn RevenueCat cũ bằng RevenueCat VIP tổng quát
+
+#RevenueCatVip (TỔNG QUÁT cho nhiều app)
+RevenueCatVip = type=http-response, pattern=^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts$|subscribers\/[^/]+$), script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/revenuecat.js, requires-body=true, max-size=-1, timeout=60
+RevenueCatDeleteHeader = type=http-request, pattern=^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts|subscribers), script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/deleteHeader.js, timeout=60
+
+[Map Local]
+^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad data-type=text data="" status-code=200
+
+[MITM]
+ca-passphrase = asVrxcsm
+ca-p12 = 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
+enable = true
+hostname = %APPEND%,*.googlevideo.com,youtubei.googleapis.com,www.youtube.com,s.youtube.com,-redirector*.googlevideo.com,premium*.truecaller.com,sub.store,api.revenuecat.com,api.rc-backup.com,buy.itunes.apple.com,spclient.wg.spotify.com,api-mobile.soundcloud.com,api.picsart.com,us-central1-alight-creative.cloudfunctions.net,api-sub.meitu.com,photos.adobe.io,ap*.intsig.net,api-account.kinemasters.com,api.mr.pixocial.com,newbeee-api.beautyplus.com,user-snow-api.snow.me,h5.xiuxiu.meitu.com,api.xiuxiu.meitu.com,*spclient.spotify.com
+# Danh sách hostname (trên 25 hostname)
+
+# Cấu hình MITM
+skip-server-cert-verify = true
+force-sni-domain-name = false
+tcp-connection = true
+h2 = true
