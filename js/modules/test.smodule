@@ -191,6 +191,25 @@ AdSkip-Universal = type=http-response,pattern=^https?:\/\/(.*)(ad|ads|adx|adv|do
 RevenueCatVip = type=http-response, pattern=^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts$|subscribers\/[^/]+$), script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/revenuecat.js, requires-body=true, max-size=-1, timeout=60
 RevenueCatDeleteHeader = type=http-request, pattern=^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts|subscribers), script-path=https://raw.githubusercontent.com/duyvinh09/Module_IOS/refs/heads/main/js/deleteHeader.js, timeout=60
 
+#Duolingo
+
+[Script]
+Duolingo Max = type=http-response,pattern=^https?:\/\/(api\.revenuecat\.com|purchase\.duolingo\.com)\/.+\/(receipts|subscribers|verify),requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/ttareal207/Module_IOS/refs/heads/main/js/fakemuaduolingo.js,timeout=60
+Duolingo Delete Headers = type=http-request,pattern=^https?:\/\/(api\.revenuecat\.com|purchase\.duolingo\.com|.*\.duolingo\.com)\/.+,script-path=https://raw.githubusercontent.com/ttareal207/shad/refs/heads/main/js/deleteheaderduolingo.js,timeout=30
+
+[URL Rewrite]
+# Duolingo API endpoints
+^https?:\/\/www\.duolingo\.com\/api\/.+\/subscription_status 302 https://api.revenuecat.com/v1/subscribers/duolingo_premium
+^https?:\/\/duolingo\.cloudfront\.net\/api\/.+\/premium 302 https://api.revenuecat.com/v1/subscribers/duolingo_premium
+# RevenueCat headers
+^https?:\/\/api\.revenuecat\.com\/.+\/(receipts|subscribers) header-del X-RevenueCat-ETag
+^https?:\/\/api\.revenuecat\.com\/.+\/(receipts|subscribers) header-del ETag
+^https?:\/\/api\.revenuecat\.com\/.+\/(receipts|subscribers) header-del If-None-Match
+
+# Duolingo headers
+^https?:\/\/.*\.duolingo\.com\/.+(subscription|premium|purchase) header-del X-Duolingo-ETag
+^https?:\/\/.*\.duolingo\.com\/.+(subscription|premium|purchase) header-del If-Modified-Since
+
 [Map Local]
 ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad data-type=text data="" status-code=200
 
@@ -198,7 +217,7 @@ RevenueCatDeleteHeader = type=http-request, pattern=^https:\/\/api\.(revenuecat|
 ca-passphrase = asVrxcsm
 ca-p12 = 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
 enable = true
-hostname = %APPEND%,*.googlevideo.com,youtubei.googleapis.com,www.youtube.com,s.youtube.com,-redirector*.googlevideo.com,premium*.truecaller.com,sub.store,api.revenuecat.com,api.rc-backup.com,buy.itunes.apple.com,spclient.wg.spotify.com,api-mobile.soundcloud.com,api.picsart.com,us-central1-alight-creative.cloudfunctions.net,api-sub.meitu.com,photos.adobe.io,ap*.intsig.net,api-account.kinemasters.com,api.mr.pixocial.com,newbeee-api.beautyplus.com,user-snow-api.snow.me,h5.xiuxiu.meitu.com,api.xiuxiu.meitu.com,*spclient.spotify.com
+hostname = %APPEND%,*.googlevideo.com,youtubei.googleapis.com,www.youtube.com,s.youtube.com,-redirector*.googlevideo.com,premium*.truecaller.com,sub.store,api.revenuecat.com,api.rc-backup.com,buy.itunes.apple.com,spclient.wg.spotify.com,api-mobile.soundcloud.com,api.picsart.com,us-central1-alight-creative.cloudfunctions.net,api-sub.meitu.com,photos.adobe.io,ap*.intsig.net,api-account.kinemasters.com,api.mr.pixocial.com,newbeee-api.beautyplus.com,user-snow-api.snow.me,h5.xiuxiu.meitu.com,api.xiuxiu.meitu.com,*spclient.spotify.com, api.revenuecat.com, purchase.duolingo.com, www.duolingo.com, duolingo.cloudfront.net
 # Danh sách hostname (trên 25 hostname)
 
 # Cấu hình MITM
