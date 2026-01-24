@@ -1,0 +1,13 @@
+#!url=https://raw.githubusercontent.com/vuong2023/shad/main/modules/Locket_ohb.sgmodule
+#!name=Locket-Ohoang7_Gold
+#!desc=Crack By Ohoang7
+
+[Script]
+# ~ By ttareal07
+# ～ Egern transfer to Shadowrocket & Surge & LanceX
+revenuecat = type=http-response, pattern=^https:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/[^/]+$), script-path=https://raw.githubusercontent.com/ttareal207/Module_IOS/refs/heads/main/js/locketmy_ttareal07.js, requires-body=true, max-size=-1, timeout=60
+
+deleteHeader = type=http-request, pattern=^https:\/\/api\.revenuecat\.com\/.+\/(receipts|subscribers), script-path=https://raw.githubusercontent.com/ttareal207/shad/refs/heads/main/js/hustdeleteHeader.js, timeout=60
+
+[MITM]
+hostname = %APPEND% api.revenuecat.com
