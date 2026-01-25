@@ -135,7 +135,7 @@ Snow = type=http-response, pattern=^https?:\/\/user-snow-api\.snow\.me\/v\d\/pur
 Truecaller = type=http-response,pattern=^https://premium-(.+)\.truecaller\.com/v\d/(subscriptions|products\/apple),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ttareal207/Module_IOS/refs/heads/main/js/TrueCaller.js
 
 # iTunes receipt verify
-iTunes = type=http-response, pattern=^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$, script-path=https://raw.githubusercontent.com/ttareal207/Module_IOS/refs/heads/main/js/iTunes.js, requires-body=true, max-size=-1, timeout=60
+iTunes = type=http-response, pattern=^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$, script-path=https://raw.githubusercontent.com/ttareal207/Module_IOS/refs/heads/main/iTunes.js, requires-body=true, max-size=-1, timeout=60
 
 # ===== Universal Ad Skipping =====
 AdSkip-Universal = type=http-response,pattern=^https?:\/\/(.*)(ad|ads|adx|adv|doubleclick)\.(.*),script-path=https://raw.githubusercontent.com/deezertidal/QuantumultX-Rewrite/master/js/0s-ads.js,requires-body=true
