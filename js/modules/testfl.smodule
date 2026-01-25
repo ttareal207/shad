@@ -98,7 +98,7 @@ RevenueCatDeleteHeader = type=http-request, pattern=^https:\/\/api\.(revenuecat|
 VSCO = type=http-request ^https://api.revenuecat.com/.+/(receipts$|subscribers/?(.*?)*$) script-path=https://raw.githubusercontent.com/ttareal207/Module_IOS/refs/heads/main/js/VSCO.js, requires-body=true, timeout=60
 
 # LocketGold
-revenuecat = type=http-response, pattern=^https:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/[^/]+$), script-path=https://raw.githubusercontent.com/ttareal207/Module_IOS/refs/heads/main/js/locketgold_ttarealvip.js, requires-body=true, max-size=-1, timeout=60
+revenuecat = type=http-response, pattern=^https:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/[^/]+$), script-path=https://raw.githubusercontent.com/ttareal207/Module_IOS/refs/heads/main/js/locketmy_ttareal07.js, requires-body=true, max-size=-1, timeout=60
 deleteHeader = type=http-request, pattern=^https:\/\/api\.revenuecat\.com\/.+\/(receipts|subscribers), script-path=https://raw.githubusercontent.com/ttareal207/shad/refs/heads/main/js/hustdeleteHeader.js, timeout=60
 
 # ===== Photo & Video Editing Apps =====
