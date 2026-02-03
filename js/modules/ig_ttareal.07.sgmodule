@@ -202,7 +202,7 @@ hostname = %APPEND%,*.googlevideo.com,youtubei.googleapis.com,www.youtube.com,s.
 # Danh sách hostname (trên 25 hostname)
 
 # Cấu hình MITM
-skip-server-cert-verify = true
+skip-server-cert-verify = false
 force-sni-domain-name = false
 tcp-connection = true
 h2 = true
