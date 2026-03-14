@@ -205,127 +205,66 @@ hostname = %APPEND%,*.googlevideo.com,youtubei.googleapis.com,www.youtube.com,s.
 skip-server-cert-verify = false
 force-sni-domain-name = false
 tcp-connection = true
-h2 = true 
+h2 = true sửa code chặn quảng cáo cupcut cho mạnh hơn fix code ads 0s cho mạnh hơn và chuyển quang cao về trang quảng cáo không giây và skip ads nếu cần
 
-# ============== THÊM CHẶN QUẢNG CÁO NÂNG CAO ==============
-
-[Rule]
-# Chặn quảng cáo bổ sung
-DOMAIN-KEYWORD,adservice,REJECT
-DOMAIN-KEYWORD,adserver,REJECT
-DOMAIN-KEYWORD,advertising,REJECT
-DOMAIN-KEYWORD,analytics,REJECT
-DOMAIN-KEYWORD,countly,REJECT
-DOMAIN-KEYWORD,crashlytics,REJECT
-DOMAIN-KEYWORD,doubleclick,REJECT
-DOMAIN-KEYWORD,googlead,REJECT
-DOMAIN-KEYWORD,googlesyndication,REJECT
-DOMAIN-KEYWORD,googletagmanager,REJECT
-DOMAIN-KEYWORD,google-analytics,REJECT
-DOMAIN-KEYWORD,app-measurement,REJECT
-DOMAIN-KEYWORD,firebase,REJECT
-DOMAIN-KEYWORD,adjust,REJECT
-DOMAIN-KEYWORD,appsflyer,REJECT
-DOMAIN-KEYWORD,facebook,REJECT
-DOMAIN-KEYWORD,flurry,REJECT
-DOMAIN-KEYWORD,mixpanel,REJECT
-DOMAIN-KEYWORD,amplitude,REJECT
-DOMAIN-KEYWORD,segment,REJECT
-DOMAIN-SUFFIX,amazon-adsystem.com,REJECT
-DOMAIN-SUFFIX,s.amazon-adsystem.com,REJECT
-DOMAIN-SUFFIX,adnxs.com,REJECT
-DOMAIN-SUFFIX,adsrvr.org,REJECT
-DOMAIN-SUFFIX,casalemedia.com,REJECT
-DOMAIN-SUFFIX,indexww.com,REJECT
-DOMAIN-SUFFIX,pubmatic.com,REJECT
-DOMAIN-SUFFIX,rubiconproject.com,REJECT
-DOMAIN-SUFFIX,applovin.com,REJECT
-DOMAIN-SUFFIX,unityads.unity3d.com,REJECT
-DOMAIN-SUFFIX,chartboost.com,REJECT
-DOMAIN-SUFFIX,vungle.com,REJECT
-
-# Chặn quảng cáo CapCut nâng cao
-DOMAIN-SUFFIX,capcut.com,REJECT
-DOMAIN-KEYWORD,capcut,REJECT
-DOMAIN-SUFFIX,bytedance.com,REJECT
-DOMAIN-SUFFIX,byteoversea.com,REJECT
-DOMAIN-SUFFIX,tiktok.com,REJECT
-DOMAIN-KEYWORD,pangolin,REJECT
-DOMAIN-KEYWORD,ads-dar,REJECT
-DOMAIN-KEYWORD,ads-sg,REJECT
-DOMAIN-KEYWORD,ibyted,REJECT
-DOMAIN-KEYWORD,isnssdk,REJECT
-DOMAIN-KEYWORD,snssdk,REJECT
-DOMAIN-KEYWORD,aweme,REJECT
-DOMAIN-SUFFIX,amemv.com,REJECT
-DOMAIN-SUFFIX,tik-tokapi.com,REJECT
+# ============== CHUYỂN HƯỚNG QUẢNG CÁO VỀ 0s - THOÁT NGAY KHI ẤN ==============
 
 [URL Rewrite]
-# Chặn quảng cáo CapCut mạnh hơn
-^https?:\/\/[\w-]+\.capcut\.com\/api\/v1\/ad _ reject-200
-^https?:\/\/[\w-]+\.capcut\.com\/api\/v1\/ads _ reject-200
-^https?:\/\/[\w-]+\.capcut\.com\/api\/v1\/advertisement _ reject-200
-^https?:\/\/[\w-]+\.capcut\.com\/api\/v1\/track _ reject-200
-^https?:\/\/[\w-]+\.capcut\.com\/api\/v1\/event _ reject-200
-^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/ad _ reject-200
-^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/ads _ reject-200
-^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/track _ reject-200
-^https?:\/\/[\w-]+\.byteoversea\.com\/api\/v1\/ad _ reject-200
-^https?:\/\/[\w-]+\.byteoversea\.com\/api\/v1\/ads _ reject-200
-^https?:\/\/[\w-]+\.byteoversea\.com\/api\/v1\/track _ reject-200
-^https?:\/\/[\w-]+\.snssdk\.com\/api\/v1\/ad _ reject-200
-^https?:\/\/[\w-]+\.snssdk\.com\/api\/v1\/ads _ reject-200
-^https?:\/\/[\w-]+\.snssdk\.com\/api\/v1\/track _ reject-200
-^https?:\/\/[\w-]+\.pangolin\.sgsnssdk\.com _ reject-200
-^https?:\/\/[\w-]+\.ads-dar\.(.*) _ reject-200
-^https?:\/\/[\w-]+\.ads-sg\.(.*) _ reject-200
-^https?:\/\/[\w-]+\.ibyted\.com _ reject-200
-^https?:\/\/[\w-]+\.isnssdk\.com _ reject-200
+# Chuyển hướng tất cả quảng cáo về 0.0.0.0 - ấn vào sẽ thoát ngay
+^https?:\/\/(.*)(doubleclick|googlead|googlesyndication|google-analytics|googletagmanager|app-measurement)\.(.*) 302 https://0.0.0.0/
+^https?:\/\/(.*)(ad|ads|adx|adv|adservice|adserver|advertising)\.(.*) 302 https://0.0.0.0/
+^https?:\/\/(.*)(analytics|tracking|tracker|countly|mixpanel|amplitude|segment)\.(.*) 302 https://0.0.0.0/
+^https?:\/\/(.*)(applovin|unityads|vungle|chartboost|inmobi|tapjoy)\.(.*) 302 https://0.0.0.0/
+^https?:\/\/(.*)(facebook|flurry|adjust|appsflyer)\.(.*)\/.*(ad|track) 302 https://0.0.0.0/
 
-# Chặn quảng cáo 0s nâng cao (skip ads không giây)
-^https?:\/\/(.*)(ad|ads|adx|adv|doubleclick|googlead|googlesyndication)\.(.*)\/(.*) 302 https://0.0.0.0/
-^https?:\/\/(.*)\.doubleclick\.net\/(.*) 302 https://0.0.0.0/
-^https?:\/\/(.*)\.googleadservices\.com\/(.*) 302 https://0.0.0.0/
-^https?:\/\/(.*)\.googlesyndication\.com\/(.*) 302 https://0.0.0.0/
-^https?:\/\/(.*)\.google-analytics\.com\/(.*) 302 https://0.0.0.0/
-^https?:\/\/(.*)\.googletagmanager\.com\/(.*) 302 https://0.0.0.0/
-^https?:\/\/(.*)\.app-measurement\.com\/(.*) 302 https://0.0.0.0/
-^https?:\/\/(.*)\.firebase\.com\/(.*) 302 https://0.0.0.0/
-^https?:\/\/(.*)\.adjust\.com\/(.*) 302 https://0.0.0.0/
-^https?:\/\/(.*)\.appsflyer\.com\/(.*) 302 https://0.0.0.0/
-^https?:\/\/(.*)\.facebook\.com\/(.*) 302 https://0.0.0.0/
+# Chuyển hướng quảng cáo CapCut/ByteDance về 0.0.0.0
+^https?:\/\/(.*)(capcut|bytedance|byteoversea|tiktok|snssdk|pangolin)\.(.*)\/.*(ad|ads|track|event) 302 https://0.0.0.0/
+^https?:\/\/(.*)(ibyted|isnssdk|aweme|amemv)\.(.*) 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.(pangolin|ads-dar|ads-sg)\.(.*) 302 https://0.0.0.0/
+
+# Chuyển hướng các URL quảng cáo cụ thể về 0.0.0.0
+^https?:\/\/[\w-]+\.doubleclick\.net\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.googleadservices\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.googlesyndication\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.google-analytics\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.googletagmanager\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.app-measurement\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.firebase\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.adjust\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.appsflyer\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.flurry\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.mixpanel\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.amplitude\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.segment\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.applovin\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.unityads\.unity3d\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.vungle\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.chartboost\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.inmobi\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.tapjoy\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.facebook\.com\/.*(ad|track|click) 302 https://0.0.0.0/
+
+# Chuyển hướng quảng cáo CapCut cụ thể
+^https?:\/\/[\w-]+\.capcut\.com\/api\/v1\/(ad|ads|advertisement|track|event) 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/(ad|ads|track|event) 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.byteoversea\.com\/api\/v1\/(ad|ads|track|event) 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.snssdk\.com\/api\/v1\/(ad|ads|track|event) 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.pangolin\.sgsnssdk\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.ads-dar\.(.*) 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.ads-sg\.(.*) 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.ibyted\.com\/.* 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.isnssdk\.com\/.* 302 https://0.0.0.0/
 
 [Script]
-# CapCut Ads Block nâng cao
-CapCut-Ads-Block = type=http-response,pattern=^https?:\/\/(api|effect)\.(capcut|bytedance|byteoversea)\.com\/(api\/v1\/(ad|ads|advertisement|track|event)|effect\/api\/v1\/(ad|ads|premium\/ad)),script-path=https://raw.githubusercontent.com/deezertidal/QuantumultX-Rewrite/master/js/0s-ads.js,requires-body=true
+# Skip Ads 0s Universal - Biến mọi quảng cáo thành 0s, ấn vào thoát ngay
+Skip-Ads-0s-Universal = type=http-response,pattern=^https?:\/\/(.*)(doubleclick|googlead|googlesyndication|google-analytics|applovin|unityads|vungle|chartboost|inmobi|tapjoy)\.(.*),script-path=https://raw.githubusercontent.com/deezertidal/QuantumultX-Rewrite/master/js/0s-ads.js,requires-body=true
 
-# Skip Ads Universal - Chuyển quảng cáo về trang không giây
-Skip-All-Ads = type=http-response,pattern=^https?:\/\/(.*)(ad|ads|adx|adv|doubleclick|googlead|googlesyndication|applovin|unityads|vungle|chartboost)\.(.*),script-path=https://raw.githubusercontent.com/deezertidal/QuantumultX-Rewrite/master/js/0s-ads.js,requires-body=true
+# Skip Ads CapCut/ByteDance
+Skip-Ads-CapCut = type=http-response,pattern=^https?:\/\/(.*)(capcut|bytedance|byteoversea|tiktok|snssdk|pangolin)\.(.*)\/(ad|ads|track|event),script-path=https://raw.githubusercontent.com/deezertidal/QuantumultX-Rewrite/master/js/0s-ads.js,requires-body=true
 
-[Host]
-# Local host cho quảng cáo (trả về 0.0.0.0)
-0.0.0.0 doubleclick.net
-0.0.0.0 googleadservices.com
-0.0.0.0 googlesyndication.com
-0.0.0.0 google-analytics.com
-0.0.0.0 googletagmanager.com
-0.0.0.0 app-measurement.com
-0.0.0.0 firebase.com
-0.0.0.0 firebaseio.com
-0.0.0.0 adjust.com
-0.0.0.0 appsflyer.com
-0.0.0.0 flurry.com
-0.0.0.0 mixpanel.com
-0.0.0.0 amplitude.com
-0.0.0.0 segment.com
-0.0.0.0 applovin.com
-0.0.0.0 unityads.unity3d.com
-0.0.0.0 vungle.com
-0.0.0.0 chartboost.com
-0.0.0.0 capcut.com
-0.0.0.0 bytedance.com
-0.0.0.0 byteoversea.com
-0.0.0.0 pangolin.sgsnssdk.com
-0.0.0.0 ibyted.com
-0.0.0.0 isnssdk.com
-0.0.0.0 snssdk.com
+# Skip Ads cho mạng xã hội
+Skip-Ads-Social = type=http-response,pattern=^https?:\/\/(.*)(facebook|instagram|tiktok|twitter)\.(.*)\/(ad|ads|track),script-path=https://raw.githubusercontent.com/deezertidal/QuantumultX-Rewrite/master/js/0s-ads.js,requires-body=true
+
+[MITM]
+# Thêm hostname cho các domain quảng cáo để MITM có thể xử lý
+hostname = %APPEND%, *.doubleclick.net, *.googleadservices.com, *.googlesyndication.com, *.google-analytics.com, *.googletagmanager.com, *.app-measurement.com, *.firebase.com, *.adjust.com, *.appsflyer.com, *.flurry.com, *.mixpanel.com, *.amplitude.com, *.segment.com, *.applovin.com, *.unityads.unity3d.com, *.vungle.com, *.chartboost.com, *.inmobi.com, *.tapjoy.com, *.capcut.com, *.bytedance.com, *.byteoversea.com, *.tiktok.com, *.snssdk.com, *.pangolin.sgsnssdk.com, *.ads-dar.com, *.ads-sg.com, *.ibyted.com, *.isnssdk.com
