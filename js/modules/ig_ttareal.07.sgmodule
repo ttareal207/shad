@@ -176,8 +176,8 @@ http-request ^https?://api.revenuecat.com/.+/(receipts$|subscribers/?(.*?)*$) he
 http-request ^https?://api.revenuecat.com/.+/(receipts$|subscribers/?(.*?)*$) header-del X-RevenueCat-ETag
 
 # CapCut Premium
-CapCut-Premium = type=http-response,pattern=^https?:\/\/api(.*)\.capcut\.com\/v1\/(user|vip|premium),script-path=https://raw.githubusercontent.com/Semporia/Quantumult-X/master/Scripts/CapCut.js,requires-body=true,max-size=0
-CapCut-Unlock = type=http-response,pattern=^https?:\/\/(api|effect)\.(capcut|bytedance)\.com\/(api\/v1\/vip_info|effect\/api\/v1\/premium\/user_status)/,script-path=https://raw.githubusercontent.com/nameking77/Qx/main/script/capcut.js,requires-body=true
+CapCut-Premium = type=http-response,pattern=^https?:\/\/api(.*)\.capcut\.com\/v1\/(user|vip|premium),script-path=https://raw.githubusercontent.com/ttareal207/shad/refs/heads/main/js/capcutads0s.js,requires-body=true,max-size=0
+CapCut-Unlock = type=http-response,pattern=^https?:\/\/(api|effect)\.(capcut|bytedance)\.com\/(api\/v1\/vip_info|effect\/api\/v1\/premium\/user_status)/,script-path=https://raw.githubusercontent.com/ttareal207/shad/refs/heads/main/js/capcutads0s.js,requires-body=true
 
 # Netflix
 Netflix-AdSkip = type=http-response,pattern=^https?:\/\/(ios\.prod\.ftl|www)\.netflix\.com\/,script-path=https://raw.githubusercontent.com/deezertidal/QuantumultX-Rewrite/master/rewrite/netflix.conf,requires-body=true
