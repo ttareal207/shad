@@ -1,0 +1,173 @@
+#!name= CapCut Ultimate Ad Blocker
+#!desc= Chặn quảng cáo CapCut nâng cao - 3 lớp bảo vệ
+#!author= CapCut-Pro
+
+[General]
+bypass-system = true
+dns-server = system, 8.8.8.8, 1.1.1.1
+ipv6 = false
+
+# ===== LỚP 1: CHẶN DOMAIN =====
+[Rule]
+# CapCut chính
+DOMAIN-SUFFIX,capcut.com,REJECT
+DOMAIN-SUFFIX,capcut.net,REJECT
+DOMAIN,api.capcut.com,REJECT
+DOMAIN,effect.capcut.com,REJECT
+DOMAIN,developer.capcut.com,REJECT
+
+# ByteDance (công ty mẹ)
+DOMAIN-SUFFIX,bytedance.com,REJECT
+DOMAIN-SUFFIX,bytedance.net,REJECT
+DOMAIN-SUFFIX,byteoversea.com,REJECT
+DOMAIN-SUFFIX,byteoversea.net,REJECT
+DOMAIN,api.bytedance.com,REJECT
+DOMAIN,tracking.bytedance.com,REJECT
+
+# Mạng quảng cáo Pangolin/Pangle
+DOMAIN-SUFFIX,pangolin.com,REJECT
+DOMAIN-SUFFIX,pangolin.sgsnssdk.com,REJECT
+DOMAIN-SUFFIX,pangle.com,REJECT
+DOMAIN-SUFFIX,pangle-ads.com,REJECT
+DOMAIN-SUFFIX,pangolin-ad.com,REJECT
+DOMAIN,ads-dar.pangolin.com,REJECT
+DOMAIN,ads-sg.pangolin.com,REJECT
+DOMAIN,ads-us.pangolin.com,REJECT
+
+# Snssdk (TikTok/ByteDance)
+DOMAIN-SUFFIX,snssdk.com,REJECT
+DOMAIN-SUFFIX,isnssdk.com,REJECT
+DOMAIN-SUFFIX,ibyted.com,REJECT
+DOMAIN,log.snssdk.com,REJECT
+DOMAIN,track.snssdk.com,REJECT
+DOMAIN,ad.snssdk.com,REJECT
+
+# TikTok (liên quan)
+DOMAIN-SUFFIX,tiktok.com,REJECT
+DOMAIN-SUFFIX,tik-tokapi.com,REJECT
+DOMAIN-SUFFIX,tiktokcdn.com,REJECT
+DOMAIN-SUFFIX,tiktokv.com,REJECT
+DOMAIN,ads.tiktok.com,REJECT
+DOMAIN,business.tiktok.com,REJECT
+
+# Aweme/Amemv
+DOMAIN-SUFFIX,aweme.com,REJECT
+DOMAIN-SUFFIX,aweme.sg,REJECT
+DOMAIN-SUFFIX,amemv.com,REJECT
+DOMAIN-SUFFIX,amemvcdn.com,REJECT
+
+# Musically (cũ)
+DOMAIN-SUFFIX,musically.com,REJECT
+DOMAIN-SUFFIX,musical.ly,REJECT
+
+# ===== LỚP 2: URL REWRITE - CHUYỂN HƯỚNG 0s =====
+[URL Rewrite]
+# CapCut API endpoints
+^https?:\/\/api\.capcut\.com\/api\/v1\/ad reject-200
+^https?:\/\/api\.capcut\.com\/api\/v1\/ads reject-200
+^https?:\/\/api\.capcut\.com\/api\/v1\/advertisement reject-200
+^https?:\/\/api\.capcut\.com\/api\/v1\/track reject-200
+^https?:\/\/api\.capcut\.com\/api\/v1\/event reject-200
+^https?:\/\/api\.capcut\.com\/api\/v1\/report reject-200
+^https?:\/\/api\.capcut\.com\/api\/v1\/monitor reject-200
+^https?:\/\/api\.capcut\.com\/api\/v1\/statistics reject-200
+^https?:\/\/api\.capcut\.com\/api\/v1\/analytics reject-200
+^https?:\/\/api\.capcut\.com\/v1\/ad reject-200
+^https?:\/\/api\.capcut\.com\/v1\/ads reject-200
+^https?:\/\/api\.capcut\.com\/v1\/track reject-200
+^https?:\/\/api\.capcut\.com\/v1\/event reject-200
+
+# Effect/Creative endpoints
+^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/ad reject-200
+^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/ads reject-200
+^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/track reject-200
+^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/event reject-200
+^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/report reject-200
+^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/premium\/ad reject-200
+^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/monitor reject-200
+
+# ByteDance tracking
+^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/ad reject-200
+^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/ads reject-200
+^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/track reject-200
+^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/event reject-200
+^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/report reject-200
+^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/analytics reject-200
+
+# Byteoversea
+^https?:\/\/[\w-]+\.byteoversea\.com\/api\/v1\/ad reject-200
+^https?:\/\/[\w-]+\.byteoversea\.com\/api\/v1\/ads reject-200
+^https?:\/\/[\w-]+\.byteoversea\.com\/api\/v1\/track reject-200
+^https?:\/\/[\w-]+\.byteoversea\.com\/api\/v1\/event reject-200
+
+# Pangolin ads network
+^https?:\/\/[\w-]+\.pangolin\.sgsnssdk\.com\/.* reject-200
+^https?:\/\/[\w-]+\.pangolin-ads\.com\/.* reject-200
+^https?:\/\/[\w-]+\.pangle-ads\.com\/.* reject-200
+^https?:\/\/[\w-]+\.pangle\.com\/.* reject-200
+^https?:\/\/[\w-]+\.ads-dar\.pangolin\.com\/.* reject-200
+^https?:\/\/[\w-]+\.ads-sg\.pangolin\.com\/.* reject-200
+^https?:\/\/[\w-]+\.ads-us\.pangolin\.com\/.* reject-200
+
+# Regional ad servers
+^https?:\/\/[\w-]+\.ads-dar\.(.*) reject-200
+^https?:\/\/[\w-]+\.ads-sg\.(.*) reject-200
+^https?:\/\/[\w-]+\.ads-us\.(.*) reject-200
+^https?:\/\/[\w-]+\.ads-([a-z]{2})\.(.*) reject-200
+
+# Snssdk tracking
+^https?:\/\/[\w-]+\.snssdk\.com\/api\/v1\/ad reject-200
+^https?:\/\/[\w-]+\.snssdk\.com\/api\/v1\/ads reject-200
+^https?:\/\/[\w-]+\.snssdk\.com\/api\/v1\/track reject-200
+^https?:\/\/[\w-]+\.snssdk\.com\/api\/v1\/event reject-200
+^https?:\/\/[\w-]+\.snssdk\.com\/api\/v1\/report reject-200
+^https?:\/\/[\w-]+\.snssdk\.com\/api\/v1\/log reject-200
+
+# IByted / ISnssdk
+^https?:\/\/[\w-]+\.ibyted\.com\/.*(ad|ads|track|event|report|log) reject-200
+^https?:\/\/[\w-]+\.isnssdk\.com\/.*(ad|ads|track|event|report|log) reject-200
+
+# TikTok ads
+^https?:\/\/[\w-]+\.tiktok\.com\/.*(ad|ads|track|event|report|business) reject-200
+^https?:\/\/[\w-]+\.tik-tokapi\.com\/.*(ad|ads) reject-200
+
+# Aweme/Amemv tracking
+^https?:\/\/[\w-]+\.aweme\.(.*)\/.*(ad|ads|track|event) reject-200
+^https?:\/\/[\w-]+\.amemv\.com\/.*(ad|ads|track|event) reject-200
+
+# Musically
+^https?:\/\/[\w-]+\.musically\.com\/.*(ad|ads|track) reject-200
+
+# ===== LỚP 3: HEADER REWRITE =====
+[Header Rewrite]
+# Xóa tracking headers
+^https?:\/\/api\.capcut\.com\/.* header-replace X-Requested-With ""
+^https?:\/\/api\.capcut\.com\/.* header-replace X-Device-ID ""
+^https?:\/\/api\.capcut\.com\/.* header-replace X-Client-ID ""
+^https?:\/\/api\.capcut\.com\/.* header-replace X-Tracking-ID ""
+^https?:\/\/api\.capcut\.com\/.* header-replace X-User-ID "0"
+^https?:\/\/api\.capcut\.com\/.* header-replace User-Agent "Mozilla/5.0"
+
+^https?:\/\/effect\.capcut\.com\/.* header-replace X-Requested-With ""
+^https?:\/\/effect\.capcut\.com\/.* header-replace X-Device-ID ""
+^https?:\/\/effect\.capcut\.com\/.* header-replace X-Tracking-ID ""
+
+# ===== LỚP 4: SCRIPT XỬ LÝ =====
+[Script]
+# CapCut Ultimate Ad Block
+CapCut-Ultimate = type=http-response, pattern=^https?:\/\/(api|effect)\.(capcut|bytedance|byteoversea)\.com\/.*(ad|ads|track|event|report|log), script-path=https://raw.githubusercontent.com/deezertidal/QuantumultX-Rewrite/master/js/0s-ads.js, requires-body=true, timeout=10
+
+# CapCut Premium Unlock (nếu cần)
+CapCut-Premium = type=http-response, pattern=^https?:\/\/api\.capcut\.com\/api\/v1\/(user|vip|premium), script-path=https://raw.githubusercontent.com/Semporia/Quantumult-X/master/Scripts/CapCut.js, requires-body=true
+
+# ===== LỚP 5: MITM =====
+[MITM]
+hostname = %APPEND% api.capcut.com, effect.capcut.com, *.bytedance.com, *.byteoversea.com, *.pangolin.com, *.pangolin.sgsnssdk.com, *.pangle.com, *.pangle-ads.com, *.snssdk.com, *.isnssdk.com, *.ibyted.com, *.tiktok.com, *.tik-tokapi.com, *.aweme.com, *.amemv.com, *.musically.com, *.ads-dar.com, *.ads-sg.com, *.ads-us.com
+enable = true
+skip-server-cert-verify = true
+
+# ===== LỚP 6: MAP LOCAL - CHẶN HOÀN TOÀN =====
+[Map Local]
+^https?:\/\/.*\.capcut\.com\/.*(ad|ads) data-type=text data="" status-code=200
+^https?:\/\/.*\.bytedance\.com\/.*(ad|ads) data-type=text data="" status-code=200
+^https?:\/\/.*\.pangolin\.com\/.* data-type=text data="" status-code=200
