@@ -1,286 +1,249 @@
-#!name= CapCut Ultimate Ad Blocker
-#!desc= Chặn quảng cáo CapCut nâng cao - 3 lớp bảo vệ
-#!author= CapCut-Pro
+#!name= CapCut Deep Interceptor
+#!desc= Can thiệp sâu vào cơ chế CapCut - Giả lập đã xem ads và Premium
+#!author= CapCut-Hacker
 
 [General]
 bypass-system = true
 dns-server = system, 8.8.8.8, 1.1.1.1
 ipv6 = false
 
-# ===== LỚP 1: CHẶN DOMAIN =====
+# ===== LỚP 1: CHẶN HOÀN TOÀN REQUEST QUẢNG CÁO =====
 [Rule]
-# CapCut chính
-DOMAIN-SUFFIX,capcut.com,REJECT
-DOMAIN-SUFFIX,capcut.net,REJECT
-DOMAIN,api.capcut.com,REJECT
-DOMAIN,effect.capcut.com,REJECT
-DOMAIN,developer.capcut.com,REJECT
+# Chặn mọi request liên quan đến quảng cáo
+DOMAIN-SUFFIX,capcut.com,PROXY
+DOMAIN-SUFFIX,bytedance.com,PROXY
+DOMAIN-SUFFIX,byteoversea.com,PROXY
+DOMAIN-KEYWORD,ad,REJECT
+DOMAIN-KEYWORD,ads,REJECT
+DOMAIN-KEYWORD,track,REJECT
+DOMAIN-KEYWORD,event,REJECT
+DOMAIN-KEYWORD,report,REJECT
+DOMAIN-KEYWORD,analytics,REJECT
+DOMAIN-KEYWORD,monitor,REJECT
+DOMAIN-KEYWORD,statistic,REJECT
+DOMAIN-KEYWORD,log,REJECT
 
-# ByteDance (công ty mẹ)
-DOMAIN-SUFFIX,bytedance.com,REJECT
-DOMAIN-SUFFIX,bytedance.net,REJECT
-DOMAIN-SUFFIX,byteoversea.com,REJECT
-DOMAIN-SUFFIX,byteoversea.net,REJECT
-DOMAIN,api.bytedance.com,REJECT
-DOMAIN,tracking.bytedance.com,REJECT
-
-# Mạng quảng cáo Pangolin/Pangle
-DOMAIN-SUFFIX,pangolin.com,REJECT
-DOMAIN-SUFFIX,pangolin.sgsnssdk.com,REJECT
-DOMAIN-SUFFIX,pangle.com,REJECT
-DOMAIN-SUFFIX,pangle-ads.com,REJECT
-DOMAIN-SUFFIX,pangolin-ad.com,REJECT
-DOMAIN,ads-dar.pangolin.com,REJECT
-DOMAIN,ads-sg.pangolin.com,REJECT
-DOMAIN,ads-us.pangolin.com,REJECT
-
-# Snssdk (TikTok/ByteDance)
-DOMAIN-SUFFIX,snssdk.com,REJECT
-DOMAIN-SUFFIX,isnssdk.com,REJECT
-DOMAIN-SUFFIX,ibyted.com,REJECT
-DOMAIN,log.snssdk.com,REJECT
-DOMAIN,track.snssdk.com,REJECT
-DOMAIN,ad.snssdk.com,REJECT
-
-# TikTok (liên quan)
-DOMAIN-SUFFIX,tiktok.com,REJECT
-DOMAIN-SUFFIX,tik-tokapi.com,REJECT
-DOMAIN-SUFFIX,tiktokcdn.com,REJECT
-DOMAIN-SUFFIX,tiktokv.com,REJECT
-DOMAIN,ads.tiktok.com,REJECT
-DOMAIN,business.tiktok.com,REJECT
-
-# Aweme/Amemv
-DOMAIN-SUFFIX,aweme.com,REJECT
-DOMAIN-SUFFIX,aweme.sg,REJECT
-DOMAIN-SUFFIX,amemv.com,REJECT
-DOMAIN-SUFFIX,amemvcdn.com,REJECT
-
-# Musically (cũ)
-DOMAIN-SUFFIX,musically.com,REJECT
-DOMAIN-SUFFIX,musical.ly,REJECT
-
-# ===== LỚP 2: URL REWRITE - CHUYỂN HƯỚNG 0s =====
+# ===== LỚP 2: URL REWRITE MẠNH =====
 [URL Rewrite]
-# CapCut API endpoints
-^https?:\/\/api\.capcut\.com\/api\/v1\/ad reject-200
-^https?:\/\/api\.capcut\.com\/api\/v1\/ads reject-200
-^https?:\/\/api\.capcut\.com\/api\/v1\/advertisement reject-200
-^https?:\/\/api\.capcut\.com\/api\/v1\/track reject-200
-^https?:\/\/api\.capcut\.com\/api\/v1\/event reject-200
-^https?:\/\/api\.capcut\.com\/api\/v1\/report reject-200
-^https?:\/\/api\.capcut\.com\/api\/v1\/monitor reject-200
-^https?:\/\/api\.capcut\.com\/api\/v1\/statistics reject-200
-^https?:\/\/api\.capcut\.com\/api\/v1\/analytics reject-200
-^https?:\/\/api\.capcut\.com\/v1\/ad reject-200
-^https?:\/\/api\.capcut\.com\/v1\/ads reject-200
-^https?:\/\/api\.capcut\.com\/v1\/track reject-200
-^https?:\/\/api\.capcut\.com\/v1\/event reject-200
+# === ADS ENDPOINTS ===
+^https?:\/\/api\.capcut\.com\/api\/v1\/ad 302 https://api.capcut.com/api/v1/ad-completed
+^https?:\/\/api\.capcut\.com\/api\/v1\/ads 302 https://api.capcut.com/api/v1/ads-completed
+^https?:\/\/api\.capcut\.com\/api\/v1\/ad\/check 302 https://api.capcut.com/api/v1/ad-completed/check
+^https?:\/\/api\.capcut\.com\/api\/v1\/ad\/view 302 https://api.capcut.com/api/v1/ad-viewed
+^https?:\/\/api\.capcut\.com\/api\/v1\/ad\/skip 302 https://api.capcut.com/api/v1/ad-skipped
+^https?:\/\/api\.capcut\.com\/api\/v1\/ad\/reward 302 https://api.capcut.com/api/v1/ad-rewarded
 
-# Effect/Creative endpoints
-^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/ad reject-200
-^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/ads reject-200
-^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/track reject-200
-^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/event reject-200
-^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/report reject-200
-^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/premium\/ad reject-200
-^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/monitor reject-200
+# === EXPORT ADS ===
+^https?:\/\/api\.capcut\.com\/api\/v1\/export\/ad 302 https://api.capcut.com/api/v1/export/no-ad
+^https?:\/\/api\.capcut\.com\/api\/v1\/export\/check 302 https://api.capcut.com/api/v1/export/ready
+^https?:\/\/api\.capcut\.com\/api\/v1\/export\/require 302 https://api.capcut.com/api/v1/export/no-require
+^https?:\/\/api\.capcut\.com\/api\/v1\/export\/status 302 https://api.capcut.com/api/v1/export/completed
 
-# ByteDance tracking
-^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/ad reject-200
-^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/ads reject-200
-^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/track reject-200
-^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/event reject-200
-^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/report reject-200
-^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/analytics reject-200
+# === WATERMARK ===
+^https?:\/\/api\.capcut\.com\/api\/v1\/watermark 302 https://api.capcut.com/api/v1/watermark-removed
+^https?:\/\/api\.capcut\.com\/api\/v1\/watermark\/check 302 https://api.capcut.com/api/v1/watermark-none
 
-# Byteoversea
-^https?:\/\/[\w-]+\.byteoversea\.com\/api\/v1\/ad reject-200
-^https?:\/\/[\w-]+\.byteoversea\.com\/api\/v1\/ads reject-200
-^https?:\/\/[\w-]+\.byteoversea\.com\/api\/v1\/track reject-200
-^https?:\/\/[\w-]+\.byteoversea\.com\/api\/v1\/event reject-200
+# === PREMIUM ===
+^https?:\/\/api\.capcut\.com\/api\/v1\/premium 302 https://api.capcut.com/api/v1/premium-active
+^https?:\/\/api\.capcut\.com\/api\/v1\/premium\/check 302 https://api.capcut.com/api/v1/premium/active
+^https?:\/\/api\.capcut\.com\/api\/v1\/vip 302 https://api.capcut.com/api/v1/vip-active
+^https?:\/\/api\.capcut\.com\/api\/v1\/subscription 302 https://api.capcut.com/api/v1/subscription/active
 
-# Pangolin ads network
-^https?:\/\/[\w-]+\.pangolin\.sgsnssdk\.com\/.* reject-200
-^https?:\/\/[\w-]+\.pangolin-ads\.com\/.* reject-200
-^https?:\/\/[\w-]+\.pangle-ads\.com\/.* reject-200
-^https?:\/\/[\w-]+\.pangle\.com\/.* reject-200
-^https?:\/\/[\w-]+\.ads-dar\.pangolin\.com\/.* reject-200
-^https?:\/\/[\w-]+\.ads-sg\.pangolin\.com\/.* reject-200
-^https?:\/\/[\w-]+\.ads-us\.pangolin\.com\/.* reject-200
+# === USER ===
+^https?:\/\/api\.capcut\.com\/api\/v1\/user 302 https://api.capcut.com/api/v1/user-premium
+^https?:\/\/api\.capcut\.com\/api\/v1\/user\/status 302 https://api.capcut.com/api/v1/user/vip-status
 
-# Regional ad servers
-^https?:\/\/[\w-]+\.ads-dar\.(.*) reject-200
-^https?:\/\/[\w-]+\.ads-sg\.(.*) reject-200
-^https?:\/\/[\w-]+\.ads-us\.(.*) reject-200
-^https?:\/\/[\w-]+\.ads-([a-z]{2})\.(.*) reject-200
+# === TRACKING ===
+^https?:\/\/api\.capcut\.com\/api\/v1\/track 302 https://0.0.0.0/
+^https?:\/\/api\.capcut\.com\/api\/v1\/event 302 https://0.0.0.0/
+^https?:\/\/api\.capcut\.com\/api\/v1\/report 302 https://0.0.0.0/
+^https?:\/\/api\.capcut\.com\/api\/v1\/log 302 https://0.0.0.0/
+^https?:\/\/api\.capcut\.com\/api\/v1\/analytics 302 https://0.0.0.0/
 
-# Snssdk tracking
-^https?:\/\/[\w-]+\.snssdk\.com\/api\/v1\/ad reject-200
-^https?:\/\/[\w-]+\.snssdk\.com\/api\/v1\/ads reject-200
-^https?:\/\/[\w-]+\.snssdk\.com\/api\/v1\/track reject-200
-^https?:\/\/[\w-]+\.snssdk\.com\/api\/v1\/event reject-200
-^https?:\/\/[\w-]+\.snssdk\.com\/api\/v1\/report reject-200
-^https?:\/\/[\w-]+\.snssdk\.com\/api\/v1\/log reject-200
-
-# IByted / ISnssdk
-^https?:\/\/[\w-]+\.ibyted\.com\/.*(ad|ads|track|event|report|log) reject-200
-^https?:\/\/[\w-]+\.isnssdk\.com\/.*(ad|ads|track|event|report|log) reject-200
-
-# TikTok ads
-^https?:\/\/[\w-]+\.tiktok\.com\/.*(ad|ads|track|event|report|business) reject-200
-^https?:\/\/[\w-]+\.tik-tokapi\.com\/.*(ad|ads) reject-200
-
-# Aweme/Amemv tracking
-^https?:\/\/[\w-]+\.aweme\.(.*)\/.*(ad|ads|track|event) reject-200
-^https?:\/\/[\w-]+\.amemv\.com\/.*(ad|ads|track|event) reject-200
-
-# Musically
-^https?:\/\/[\w-]+\.musically\.com\/.*(ad|ads|track) reject-200
-
-# ===== LỚP 3: HEADER REWRITE =====
-[Header Rewrite]
-# Xóa tracking headers
-^https?:\/\/api\.capcut\.com\/.* header-replace X-Requested-With ""
-^https?:\/\/api\.capcut\.com\/.* header-replace X-Device-ID ""
-^https?:\/\/api\.capcut\.com\/.* header-replace X-Client-ID ""
-^https?:\/\/api\.capcut\.com\/.* header-replace X-Tracking-ID ""
-^https?:\/\/api\.capcut\.com\/.* header-replace X-User-ID "0"
-^https?:\/\/api\.capcut\.com\/.* header-replace User-Agent "Mozilla/5.0"
-
-^https?:\/\/effect\.capcut\.com\/.* header-replace X-Requested-With ""
-^https?:\/\/effect\.capcut\.com\/.* header-replace X-Device-ID ""
-^https?:\/\/effect\.capcut\.com\/.* header-replace X-Tracking-ID ""
-
-# ===== LỚP 4: SCRIPT XỬ LÝ =====
+# ===== LỚP 3: SCRIPT CAN THIỆP SÂU =====
 [Script]
-# CapCut Ultimate Ad Block
-CapCut-Ultimate = type=http-response, pattern=^https?:\/\/(api|effect)\.(capcut|bytedance|byteoversea)\.com\/.*(ad|ads|track|event|report|log), script-path=https://raw.githubusercontent.com/deezertidal/QuantumultX-Rewrite/master/js/0s-ads.js, requires-body=true, timeout=10
+# Script giả lập đã xem quảng cáo
+CapCut-Ads-Watcher = type=http-request, pattern=^https?:\/\/api\.capcut\.com\/api\/v1\/(ad|ads|export\/ad), script-path=ads-watcher.js
 
-# CapCut Premium Unlock (nếu cần)
-CapCut-Premium = type=http-response, pattern=^https?:\/\/api\.capcut\.com\/api\/v1\/(user|vip|premium), script-path=https://raw.githubusercontent.com/Semporia/Quantumult-X/master/Scripts/CapCut.js, requires-body=true
+# Script giả lập Premium
+CapCut-Premium-Faker = type=http-response, pattern=^https?:\/\/api\.capcut\.com\/api\/v1\/(user|vip|premium|subscription), script-path=premium-faker.js
 
-# ===== LỚP 5: MITM =====
+# Script xử lý export
+CapCut-Export-Handler = type=http-response, pattern=^https?:\/\/api\.capcut\.com\/api\/v1\/export, script-path=export-handler.js
+
+# === NỘI DUNG SCRIPT ads-watcher.js ===
+"""
+// Giả lập đã xem quảng cáo thành công
+$done({
+    status: 200,
+    headers: {
+        "Content-Type": "application/json"
+    },
+    response: {
+        code: 0,
+        message: "success",
+        data: {
+            ad_viewed: true,
+            ad_completed: true,
+            ad_skipped: false,
+            reward_claimed: true,
+            view_time: 30000, // Đã xem 30 giây
+            remaining_ads: 0,
+            next_ad_time: 9999999999,
+            can_export: true,
+            export_without_ad: true,
+            ad_free_trial: true,
+            ad_free_until: "2099-12-31T23:59:59Z"
+        }
+    }
+});
+"""
+
+# === NỘI DUNG SCRIPT premium-faker.js ===
+"""
+// Giả lập tài khoản Premium vĩnh viễn
+const response = JSON.parse($response.body || '{}');
+response.code = 0;
+response.message = "success";
+response.data = response.data || {};
+
+// Thông tin user
+response.data.user = response.data.user || {};
+response.data.user.is_vip = true;
+response.data.user.is_premium = true;
+response.data.user.vip_type = "premium_yearly";
+response.data.user.vip_expired = false;
+response.data.user.vip_expire_time = "2099-12-31T23:59:59Z";
+response.data.user.vip_level = 999;
+response.data.user.vip_score = 999999;
+
+// Quyền lợi Premium
+response.data.user.can_export_4k = true;
+response.data.user.can_export_60fps = true;
+response.data.user.can_export_hdr = true;
+response.data.user.no_watermark = true;
+response.data.user.no_ad_export = true;
+response.data.user.unlimited_export = true;
+response.data.user.export_limit = 999999;
+response.data.user.export_count = 0;
+response.data.user.premium_features = [
+    "no_watermark",
+    "4k_export",
+    "60fps_export",
+    "hdr_export",
+    "no_ads",
+    "premium_effects",
+    "premium_filters",
+    "premium_stickers",
+    "premium_texts",
+    "premium_transitions",
+    "cloud_storage_1tb"
+];
+
+// Subscription
+response.data.subscription = {
+    status: "active",
+    type: "premium_yearly",
+    platform: "apple",
+    purchase_date: "2024-01-01T00:00:00Z",
+    expiry_date: "2099-12-31T23:59:59Z",
+    auto_renew: true,
+    valid: true,
+    grace_period: false,
+    refunded: false
+};
+
+// Ads
+response.data.ads = {
+    show_ads: false,
+    show_interstitial: false,
+    show_banner: false,
+    show_rewarded: false,
+    ad_frequency: 0,
+    last_ad_time: 0,
+    next_ad_time: 9999999999,
+    ads_watched_today: 0,
+    max_ads_per_day: 999999
+};
+
+$done({body: JSON.stringify(response)});
+"""
+
+# === NỘI DUNG SCRIPT export-handler.js ===
+"""
+// Xử lý export không quảng cáo
+const response = JSON.parse($response.body || '{}');
+response.code = 0;
+response.message = "success";
+response.data = response.data || {};
+
+// Thông tin export
+response.data.export = response.data.export || {};
+response.data.export.ready = true;
+response.data.export.status = "processing";
+response.data.export.progress = 100;
+response.data.export.require_ad = false;
+response.data.export.ad_viewed = true;
+response.data.export.ad_skipped = false;
+response.data.export.watermark = false;
+response.data.export.quality = "4k";
+response.data.export.fps = 60;
+response.data.export.resolution = "3840x2160";
+response.data.export.estimated_time = 0;
+response.data.export.remaining_time = 0;
+response.data.export.priority = "high";
+
+// URL export (giả lập đã có sẵn)
+response.data.export.url = "https://export.capcut.com/video/premium/export.mp4";
+response.data.export.download_url = "https://download.capcut.com/video/premium/export.mp4";
+
+// Không cần xem quảng cáo
+response.data.ad_required = false;
+response.data.ad_completed = true;
+response.data.ad_skipped = true;
+response.data.ad_viewed = true;
+
+$done({body: JSON.stringify(response)});
+"""
+
+# ===== LỚP 4: MITM BẮT TOÀN BỘ =====
 [MITM]
-hostname = %APPEND% api.capcut.com, effect.capcut.com, *.bytedance.com, *.byteoversea.com, *.pangolin.com, *.pangolin.sgsnssdk.com, *.pangle.com, *.pangle-ads.com, *.snssdk.com, *.isnssdk.com, *.ibyted.com, *.tiktok.com, *.tik-tokapi.com, *.aweme.com, *.amemv.com, *.musically.com, *.ads-dar.com, *.ads-sg.com, *.ads-us.com
+hostname = %APPEND% api.capcut.com, effect.capcut.com, *.bytedance.com, *.byteoversea.com
 enable = true
 skip-server-cert-verify = true
 
-# ===== LỚP 6: MAP LOCAL - CHẶN HOÀN TOÀN =====
+# ===== LỚP 5: MAP LOCAL - TRẢ VỀ RESPONSE GIẢ =====
 [Map Local]
-^https?:\/\/.*\.capcut\.com\/.*(ad|ads) data-type=text data="" status-code=200
-^https?:\/\/.*\.bytedance\.com\/.*(ad|ads) data-type=text data="" status-code=200
-^https?:\/\/.*\.pangolin\.com\/.* data-type=text data="" status-code=200
-#!name= CapCut Export Ads 0s
-#!desc= Vô hiệu hóa quảng cáo khi xuất video - Tự động skip ads
-#!author= CapCut-Export-Pro
+# User endpoints
+^https?:\/\/api\.capcut\.com\/api\/v1\/user data-type=json data={"code":0,"message":"success","data":{"user":{"is_vip":true,"is_premium":true,"vip_type":"premium_yearly","vip_expired":false,"vip_expire_time":"2099-12-31T23:59:59Z","can_export_4k":true,"no_watermark":true,"no_ad_export":true}}} status-code=200
 
-[General]
-bypass-system = true
-dns-server = system, 8.8.8.8, 1.1.1.1
-ipv6 = false
+# Premium check
+^https?:\/\/api\.capcut\.com\/api\/v1\/premium\/check data-type=json data={"code":0,"message":"success","data":{"is_premium":true,"premium_until":"2099-12-31T23:59:59Z","features":["no_ads","4k_export","no_watermark"]}} status-code=200
 
-# ===== CHẶN QUẢNG CÁO KHI XUẤT VIDEO =====
-[Rule]
-# Chặn domain quảng cáo khi xuất
-DOMAIN-SUFFIX,capcut.com,REJECT
-DOMAIN-SUFFIX,bytedance.com,REJECT
-DOMAIN-SUFFIX,byteoversea.com,REJECT
-DOMAIN,api.capcut.com,REJECT
-DOMAIN,effect.capcut.com,REJECT
-DOMAIN,ads.capcut.com,REJECT
-DOMAIN,export.capcut.com,REJECT
+# Export check
+^https?:\/\/api\.capcut\.com\/api\/v1\/export\/check data-type=json data={"code":0,"message":"success","data":{"can_export":true,"require_ad":false,"ad_completed":true,"watermark_removed":true,"quality_available":["480p","720p","1080p","4k"]}} status-code=200
 
-[URL Rewrite]
-# ===== XỬ LÝ QUẢNG CÁO KHI XUẤT VIDEO =====
+# Ad check
+^https?:\/\/api\.capcut\.com\/api\/v1\/ad\/check data-type=json data={"code":0,"message":"success","data":{"show_ad":false,"ad_viewed":true,"ad_completed":true,"next_ad_time":9999999999,"remaining_ads":0}} status-code=200
 
-# Export endpoints - chuyển thành 0s
-^https?:\/\/api\.capcut\.com\/api\/v1\/export\/ad 302 https://0.0.0.0/
-^https?:\/\/api\.capcut\.com\/api\/v1\/export\/ads 302 https://0.0.0.0/
-^https?:\/\/api\.capcut\.com\/api\/v1\/export\/check 302 https://0.0.0.0/
-^https?:\/\/api\.capcut\.com\/api\/v1\/export\/status 302 https://0.0.0.0/
-^https?:\/\/api\.capcut\.com\/api\/v1\/export\/progress 302 https://0.0.0.0/
+# Subscription
+^https?:\/\/api\.capcut\.com\/api\/v1\/subscription data-type=json data={"code":0,"message":"success","data":{"status":"active","type":"premium_yearly","expiry":"2099-12-31T23:59:59Z","auto_renew":true}} status-code=200
 
-# Quảng cáo trong quá trình xuất
-^https?:\/\/api\.capcut\.com\/api\/v1\/ad\/export 302 https://0.0.0.0/
-^https?:\/\/api\.capcut\.com\/api\/v1\/ads\/export 302 https://0.0.0.0/
-^https?:\/\/api\.capcut\.com\/api\/v1\/video\/export\/ad 302 https://0.0.0.0/
-^https?:\/\/api\.capcut\.com\/api\/v1\/video\/export\/skip 302 https://0.0.0.0/
+# ===== LỚP 6: HEADER REWRITE - XÓA DẤU VẾT =====
+[Header Rewrite]
+^https?:\/\/api\.capcut\.com\/.* header-replace X-Device-ID "PREMIUM-DEVICE-999999"
+^https?:\/\/api\.capcut\.com\/.* header-replace X-User-ID "PREMIUM-USER-999999"
+^https?:\/\/api\.capcut\.com\/.* header-replace X-Tracking-ID "DISABLED"
+^https?:\/\/api\.capcut\.com\/.* header-replace X-Ad-ID "COMPLETED"
+^https?:\/\/api\.capcut\.com\/.* header-replace X-Ad-View-Time "30000"
 
-# Quảng cáo watermark
-^https?:\/\/api\.capcut\.com\/api\/v1\/watermark 302 https://0.0.0.0/
-^https?:\/\/api\.capcut\.com\/api\/v1\/watermark\/ad 302 https://0.0.0.0/
-^https?:\/\/api\.capcut\.com\/api\/v1\/watermark\/skip 302 https://0.0.0.0/
-
-# Premium features (để xuất không quảng cáo)
-^https?:\/\/api\.capcut\.com\/api\/v1\/premium\/check 302 https://0.0.0.0/
-^https?:\/\/api\.capcut\.com\/api\/v1\/premium\/export 302 https://0.0.0.0/
-^https?:\/\/api\.capcut\.com\/api\/v1\/vip\/export 302 https://0.0.0.0/
-
-# Effect ads khi xuất
-^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/export\/ad 302 https://0.0.0.0/
-^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/export\/ads 302 https://0.0.0.0/
-^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/premium\/export 302 https://0.0.0.0/
-
-# ByteDance export tracking
-^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/export\/ad 302 https://0.0.0.0/
-^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/export\/track 302 https://0.0.0.0/
-^https?:\/\/[\w-]+\.byteoversea\.com\/api\/v1\/export\/ad 302 https://0.0.0.0/
-
-[Script]
-# ===== SCRIPT XỬ LÝ XUẤT VIDEO =====
-
-# CapCut Export - Tự động skip ads
-CapCut-Export-Ads = type=http-response, pattern=^https?:\/\/api\.capcut\.com\/api\/v1\/(export|video\/export)\/.*, script-path=export-skip.js, requires-body=true
-
-# CapCut Premium - Giả lập VIP để xuất không ads
-CapCut-Export-Premium = type=http-response, pattern=^https?:\/\/api\.capcut\.com\/api\/v1\/(user|vip|premium|export\/status), script-path=premium-export.js, requires-body=true
-
-# Nội dung script export-skip.js:
-"""
-// Script tự động skip quảng cáo khi xuất
-const body = JSON.parse($response.body);
-body.ad = null;
-body.ads = [];
-body.show_ad = false;
-body.require_ad = false;
-body.ad_duration = 0;
-body.skip_ad = true;
-body.export_without_ad = true;
-body.premium_required = false;
-body.watermark = false;
-$done({body: JSON.stringify(body)});
-"""
-
-# Nội dung script premium-export.js:
-"""
-// Giả lập tài khoản Premium để xuất không quảng cáo
-const body = JSON.parse($response.body);
-body.is_vip = true;
-body.is_premium = true;
-body.vip_expired = false;
-body.vip_type = "premium";
-body.can_export_without_ad = true;
-body.export_limit = 999999;
-body.watermark_removed = true;
-$done({body: JSON.stringify(body)});
-"""
-
-[MITM]
-hostname = %APPEND% api.capcut.com, effect.capcut.com, export.capcut.com, *.bytedance.com
-enable = true
-
-[Map Local]
-# Trả về response rỗng cho quảng cáo xuất
-^https?:\/\/api\.capcut\.com\/api\/v1\/export\/ad data-type=json data={"success":true,"ad":null,"skip":true} status-code=200
-^https?:\/\/api\.capcut\.com\/api\/v1\/export\/ads data-type=json data={"success":true,"ads":[],"show_ad":false} status-code=200
-^https?:\/\/api\.capcut\.com\/api\/v1\/export\/check data-type=json data={"can_export":true,"need_ad":false,"ad_required":false} status-code=200
-^https?:\/\/api\.capcut\.com\/api\/v1\/export\/status data-type=json data={"status":"success","ad_completed":true,"export_ready":true} status-code=200
-^https?:\/\/api\.capcut\.com\/api\/v1\/user data-type=json data={"is_vip":true,"vip_type":"premium","can_export_4k":true,"no_watermark":true} status-code=200
-
+# ===== LỚP 7: HOST FILE CHẶN =====
 [Host]
-# Chặn hoàn toàn domain quảng cáo
-0.0.0.0 ads.capcut.com
-0.0.0.0 export-ads.capcut.com
-0.0.0.0 ad.capcut.com
-0.0.0.0 tracking.capcut.com
+127.0.0.1 ads.capcut.com
+127.0.0.1 tracking.capcut.com
+127.0.0.1 analytics.capcut.com
+127.0.0.1 monitor.capcut.com
+127.0.0.1 log.capcut.com
+127.0.0.1 event.capcut.com
+127.0.0.1 report.capcut.com
+127.0.0.1 statistic.capcut.com
