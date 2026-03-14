@@ -171,3 +171,116 @@ skip-server-cert-verify = true
 ^https?:\/\/.*\.capcut\.com\/.*(ad|ads) data-type=text data="" status-code=200
 ^https?:\/\/.*\.bytedance\.com\/.*(ad|ads) data-type=text data="" status-code=200
 ^https?:\/\/.*\.pangolin\.com\/.* data-type=text data="" status-code=200
+#!name= CapCut Export Ads 0s
+#!desc= Vô hiệu hóa quảng cáo khi xuất video - Tự động skip ads
+#!author= CapCut-Export-Pro
+
+[General]
+bypass-system = true
+dns-server = system, 8.8.8.8, 1.1.1.1
+ipv6 = false
+
+# ===== CHẶN QUẢNG CÁO KHI XUẤT VIDEO =====
+[Rule]
+# Chặn domain quảng cáo khi xuất
+DOMAIN-SUFFIX,capcut.com,REJECT
+DOMAIN-SUFFIX,bytedance.com,REJECT
+DOMAIN-SUFFIX,byteoversea.com,REJECT
+DOMAIN,api.capcut.com,REJECT
+DOMAIN,effect.capcut.com,REJECT
+DOMAIN,ads.capcut.com,REJECT
+DOMAIN,export.capcut.com,REJECT
+
+[URL Rewrite]
+# ===== XỬ LÝ QUẢNG CÁO KHI XUẤT VIDEO =====
+
+# Export endpoints - chuyển thành 0s
+^https?:\/\/api\.capcut\.com\/api\/v1\/export\/ad 302 https://0.0.0.0/
+^https?:\/\/api\.capcut\.com\/api\/v1\/export\/ads 302 https://0.0.0.0/
+^https?:\/\/api\.capcut\.com\/api\/v1\/export\/check 302 https://0.0.0.0/
+^https?:\/\/api\.capcut\.com\/api\/v1\/export\/status 302 https://0.0.0.0/
+^https?:\/\/api\.capcut\.com\/api\/v1\/export\/progress 302 https://0.0.0.0/
+
+# Quảng cáo trong quá trình xuất
+^https?:\/\/api\.capcut\.com\/api\/v1\/ad\/export 302 https://0.0.0.0/
+^https?:\/\/api\.capcut\.com\/api\/v1\/ads\/export 302 https://0.0.0.0/
+^https?:\/\/api\.capcut\.com\/api\/v1\/video\/export\/ad 302 https://0.0.0.0/
+^https?:\/\/api\.capcut\.com\/api\/v1\/video\/export\/skip 302 https://0.0.0.0/
+
+# Quảng cáo watermark
+^https?:\/\/api\.capcut\.com\/api\/v1\/watermark 302 https://0.0.0.0/
+^https?:\/\/api\.capcut\.com\/api\/v1\/watermark\/ad 302 https://0.0.0.0/
+^https?:\/\/api\.capcut\.com\/api\/v1\/watermark\/skip 302 https://0.0.0.0/
+
+# Premium features (để xuất không quảng cáo)
+^https?:\/\/api\.capcut\.com\/api\/v1\/premium\/check 302 https://0.0.0.0/
+^https?:\/\/api\.capcut\.com\/api\/v1\/premium\/export 302 https://0.0.0.0/
+^https?:\/\/api\.capcut\.com\/api\/v1\/vip\/export 302 https://0.0.0.0/
+
+# Effect ads khi xuất
+^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/export\/ad 302 https://0.0.0.0/
+^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/export\/ads 302 https://0.0.0.0/
+^https?:\/\/effect\.capcut\.com\/effect\/api\/v1\/premium\/export 302 https://0.0.0.0/
+
+# ByteDance export tracking
+^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/export\/ad 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.bytedance\.com\/api\/v1\/export\/track 302 https://0.0.0.0/
+^https?:\/\/[\w-]+\.byteoversea\.com\/api\/v1\/export\/ad 302 https://0.0.0.0/
+
+[Script]
+# ===== SCRIPT XỬ LÝ XUẤT VIDEO =====
+
+# CapCut Export - Tự động skip ads
+CapCut-Export-Ads = type=http-response, pattern=^https?:\/\/api\.capcut\.com\/api\/v1\/(export|video\/export)\/.*, script-path=export-skip.js, requires-body=true
+
+# CapCut Premium - Giả lập VIP để xuất không ads
+CapCut-Export-Premium = type=http-response, pattern=^https?:\/\/api\.capcut\.com\/api\/v1\/(user|vip|premium|export\/status), script-path=premium-export.js, requires-body=true
+
+# Nội dung script export-skip.js:
+"""
+// Script tự động skip quảng cáo khi xuất
+const body = JSON.parse($response.body);
+body.ad = null;
+body.ads = [];
+body.show_ad = false;
+body.require_ad = false;
+body.ad_duration = 0;
+body.skip_ad = true;
+body.export_without_ad = true;
+body.premium_required = false;
+body.watermark = false;
+$done({body: JSON.stringify(body)});
+"""
+
+# Nội dung script premium-export.js:
+"""
+// Giả lập tài khoản Premium để xuất không quảng cáo
+const body = JSON.parse($response.body);
+body.is_vip = true;
+body.is_premium = true;
+body.vip_expired = false;
+body.vip_type = "premium";
+body.can_export_without_ad = true;
+body.export_limit = 999999;
+body.watermark_removed = true;
+$done({body: JSON.stringify(body)});
+"""
+
+[MITM]
+hostname = %APPEND% api.capcut.com, effect.capcut.com, export.capcut.com, *.bytedance.com
+enable = true
+
+[Map Local]
+# Trả về response rỗng cho quảng cáo xuất
+^https?:\/\/api\.capcut\.com\/api\/v1\/export\/ad data-type=json data={"success":true,"ad":null,"skip":true} status-code=200
+^https?:\/\/api\.capcut\.com\/api\/v1\/export\/ads data-type=json data={"success":true,"ads":[],"show_ad":false} status-code=200
+^https?:\/\/api\.capcut\.com\/api\/v1\/export\/check data-type=json data={"can_export":true,"need_ad":false,"ad_required":false} status-code=200
+^https?:\/\/api\.capcut\.com\/api\/v1\/export\/status data-type=json data={"status":"success","ad_completed":true,"export_ready":true} status-code=200
+^https?:\/\/api\.capcut\.com\/api\/v1\/user data-type=json data={"is_vip":true,"vip_type":"premium","can_export_4k":true,"no_watermark":true} status-code=200
+
+[Host]
+# Chặn hoàn toàn domain quảng cáo
+0.0.0.0 ads.capcut.com
+0.0.0.0 export-ads.capcut.com
+0.0.0.0 ad.capcut.com
+0.0.0.0 tracking.capcut.com
